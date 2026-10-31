@@ -1,0 +1,34 @@
+/* Loaded only for right-to-left UI locales. Keep URLs and code independent
+   of the interface direction; monitored prose determines its own direction. */
+html[dir="rtl"] body { font-family: Tahoma, Arial, sans-serif; }
+html[dir="rtl"] .action-sidebar .action-sidebar-item,
+html[dir="rtl"] .mobile-menu-drawer .action-sidebar-item,
+html[dir="rtl"] .menu-pop .mi { text-align: start; }
+html[dir="rtl"] body.actionsidebar-minimal .action-sidebar-inner { left: auto; right: 0; }
+html[dir="rtl"] .action-sidebar .action-label { margin-left: 0; margin-right: 14px; }
+html[dir="rtl"] .action-sidebar .action-badge { margin-left: 0; margin-right: auto; }
+html[dir="rtl"] ul#top-right-menu { margin-left: 0; margin-right: auto; }
+html[dir="rtl"] .menu-pop { right: auto; left: 0; }
+html[dir="rtl"] .menu-pop .mi .right { margin-left: 0; margin-right: auto; }
+html[dir="rtl"] .pure-form-aligned .pure-control-group label { text-align: start; margin: 0 0 0 1em; }
+html[dir="rtl"] .pure-form-aligned .pure-controls { margin-left: 0; margin-right: 11em; }
+html[dir="rtl"] .pure-table th { text-align: start; }
+html[dir="rtl"] ul { padding-left: 0; padding-right: 1em; }
+html[dir="rtl"] ul.action-sidebar-list { padding: 0; }
+html[dir="rtl"] .current-diff-url,
+html[dir="rtl"] input[type="url"],
+html[dir="rtl"] input[type="email"],
+html[dir="rtl"] input[name="url"],
+html[dir="rtl"] input[name="notification_urls"],
+html[dir="rtl"] textarea[name="notification_urls"],
+html[dir="rtl"] .monospaced-textarea textarea,
+html[dir="rtl"] code { direction: ltr; unicode-bidi: isolate; text-align: left; }
+html[dir="rtl"] #difference { text-align: start; unicode-bidi: plaintext; }
+html[dir="rtl"] #difference .diff-line { unicode-bidi: plaintext; }
+html[dir="rtl"] .watch-table .title-col { text-align: start; }
+html[dir="rtl"] .watch-table .title-col a { unicode-bidi: plaintext; }
+html[dir="rtl"] #diff-col { padding-left: 0; padding-right: 40px; }
+html[dir="rtl"] #diff-jump { left: auto; right: 0; }
+@media (max-width: 480px) {
+  html[dir="rtl"] .pure-form-aligned .pure-controls { margin-right: 0; }
+}

@@ -1,3 +1,5 @@
+> **Arabic Edition — early beta:** Independent fork of [dgtlmoon/changedetection.io](https://github.com/dgtlmoon/changedetection.io). Adds 410 Arabic translations (of 1,218 catalog entries), RTL interface styling and language-switching tests. Untranslated strings fall back to English. Visual QA across screen sizes is still pending. See [دليل التشغيل بالعربية](README.ar.md). Build from the `arabic-rtl` branch to use these changes; the upstream container image does not include them.
+
 [<img src="./docs/banner-wide.png" style="max-width:100%;" alt="AI LLM Web site page change monitoring"  title="AI LLM Web site page change monitoring"  />](https://changedetection.io?src=github)
 
 # Detect Website Changes Automatically — Monitor Web Page Changes in Real Time

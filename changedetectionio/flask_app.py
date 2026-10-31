@@ -64,6 +64,7 @@ from changedetectionio.languages import (
     get_available_languages,
     get_flag_for_locale,
     get_language_codes,
+    get_text_direction,
     get_timeago_locale,
 )
 
@@ -855,6 +856,7 @@ def changedetection_app(config=None, datastore_o=None):
         _=gettext,
         get_locale=get_locale,
         get_flag_for_locale=get_flag_for_locale,
+        get_text_direction=get_text_direction,
         available_languages=available_languages,
     )
 

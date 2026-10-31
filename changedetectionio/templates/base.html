@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ get_locale()|replace('_', '-') }}" data-darkmode="{{ get_darkmode_state() }}">
+<html lang="{{ get_locale()|replace('_', '-') }}" dir="{{ get_text_direction(get_locale()) }}" data-darkmode="{{ get_darkmode_state() }}">
 
   <head>
     <meta charset="utf-8" >
@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="{{url_for('static_content', group='styles', filename='flag-icons.min.css')}}"  >
     {# ?v= is appended automatically for static_content (see _fingerprint_static_urls) #}
     <link rel="stylesheet" href="{{url_for('static_content', group='styles', filename='styles.css')}}" >
+    {% if get_text_direction(get_locale()) == 'rtl' %}
+    <link rel="stylesheet" href="{{url_for('static_content', group='styles', filename='rtl.css')}}" >
+    {% endif %}
     {% if extra_stylesheets %}
       {% for m in extra_stylesheets %}
         <link rel="stylesheet" href="{{ m }}?ver={{ get_css_version() }}" >
