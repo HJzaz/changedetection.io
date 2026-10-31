@@ -201,3 +201,14 @@ def get_flag_for_locale(locale):
 def get_name_for_locale(locale):
     """Get native name for a locale"""
     return LANGUAGE_DATA.get(locale, {}).get('name', locale.upper())
+
+
+def get_text_direction(locale):
+    """Return the HTML direction for a UI locale using Babel's CLDR data."""
+    from babel import Locale, UnknownLocaleError
+
+    try:
+        parsed = Locale.parse(str(locale).replace('-', '_'))
+        return 'rtl' if parsed.character_order == 'right-to-left' else 'ltr'
+    except (ValueError, UnknownLocaleError):
+        return 'ltr'

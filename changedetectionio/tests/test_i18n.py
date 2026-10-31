@@ -748,3 +748,69 @@ def test_clear_history_translated_confirmation(client, live_server, measure_memo
     )
     assert res.status_code == 200, \
         "Missing confirmtext should not crash the server"
+
+
+def test_arabic_language_round_trip(client):
+    """Arabic is selectable, loads its catalog and RTL CSS, then returns to LTR."""
+    from bs4 import BeautifulSoup
+    from changedetectionio.languages import get_available_languages
+
+    assert get_available_languages()['ar']['name'] == 'العربية'
+    client.get(url_for('watchlist.index'))
+    response = client.post(url_for('set_language', locale='ar'), follow_redirects=True)
+    assert response.status_code == 200
+    page = BeautifulSoup(response.data, 'html.parser')
+    assert page.html['lang'] == 'ar'
+    assert page.html['dir'] == 'rtl'
+    assert 'الصفحات المراقبة' in page.get_text()
+    assert 'اختر اللغة' in page.get_text()
+    assert any('rtl.css' in link.get('href', '') for link in page.select('link[rel="stylesheet"]'))
+
+    response = client.post(url_for('set_language', locale='en_GB'), follow_redirects=True)
+    page = BeautifulSoup(response.data, 'html.parser')
+    assert page.html['lang'] == 'en-GB'
+    assert page.html['dir'] == 'ltr'
+    assert not any('rtl.css' in link.get('href', '') for link in page.select('link[rel="stylesheet"]'))
+    assert 'Page Watches' in page.get_text()
+
+
+def test_text_direction_uses_locale_data():
+    from changedetectionio.languages import get_text_direction
+
+    assert get_text_direction('ar') == 'rtl'
+    assert get_text_direction('ar-SY') == 'rtl'
+    assert get_text_direction('en_GB') == 'ltr'
+    assert get_text_direction('zh_Hant_TW') == 'ltr'
+    assert get_text_direction('invalid-locale') == 'ltr'
+
+
+def test_arabic_add_and_compare(client):
+    """Create a watch through the form, then render Arabic edit, preview and diff pages."""
+    from bs4 import BeautifulSoup
+
+    client.get(url_for('watchlist.index'))
+    client.post(url_for('set_language', locale='ar'))
+    response = client.post(
+        url_for('ui.ui_views.form_quick_watch_add'),
+        data={'url': 'https://example.com/arabic-demo'},
+        follow_redirects=True,
+    )
+    assert response.status_code == 200
+    datastore = client.application.config['DATASTORE']
+    uuid, watch = next((key, value) for key, value in datastore.data['watching'].items()
+                       if value['url'] == 'https://example.com/arabic-demo')
+    watch['paused'] = True
+    watch.save_history_blob('موعد التقديم: 10 نوفمبر\nBudget: USD 100\n', '1000000000', 'ar-v1')
+    watch.save_history_blob('موعد التقديم: 15 نوفمبر\nBudget: USD 200\n', '1000000001', 'ar-v2')
+
+    for endpoint in ('ui.ui_preview.preview_page', 'ui.ui_diff.diff_history_page'):
+        response = client.get(url_for(endpoint, uuid=uuid), follow_redirects=True)
+        assert response.status_code == 200
+        page = BeautifulSoup(response.data, 'html.parser')
+        assert page.html['dir'] == 'rtl'
+        assert page.select_one('#difference')['dir'] == 'auto'
+        assert 'موعد التقديم' in page.select_one('#difference').get_text()
+        assert 'Budget: USD' in page.select_one('#difference').get_text()
+    response = client.get(url_for('ui.ui_edit.edit_page', uuid=uuid), follow_redirects=True)
+    assert response.status_code == 200
+    assert 'حفظ'.encode() in response.data

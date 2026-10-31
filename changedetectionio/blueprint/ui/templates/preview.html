@@ -73,7 +73,7 @@
         <div class="tab-pane-inner" id="text">
             {{ highlight_trigger_ignored_explainer() }}
             <div class="snapshot-age">{{ current_version|format_timestamp_timeago }}</div>
-            <pre id="difference" style="border-left: 2px solid #ddd;">{{ content| diff_unescape_difference_spans }}</pre>
+            <pre id="difference" dir="auto" style="border-left: 2px solid #ddd;">{{ content| diff_unescape_difference_spans }}</pre>
         </div>
 
         <div class="tab-pane-inner" id="screenshot">

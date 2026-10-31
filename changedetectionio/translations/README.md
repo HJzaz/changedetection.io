@@ -191,6 +191,7 @@ Never fix one language and move on.
 ## Supported languages
 
 | Code | Language |
+| `ar` | Arabic (العربية) — partial beta |
 |---|---|
 | `cs` | Czech (Čeština) |
 | `de` | German (Deutsch) |
